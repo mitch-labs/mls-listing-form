@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLS Listing Form — CEREB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #e2e8f0;
+    }
+    .container {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    }
+    .logo-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo-area h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #818cf8, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .logo-area p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    select { cursor: pointer; }
+    select option { background: #1e293b; color: #e2e8f0; }
+    .row {
+      display: flex;
+      gap: 14px;
+    }
+    .row .form-group { flex: 1; }
+    .hidden { display: none !important; }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #6366f1, #818cf8);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.02em;
+      margin-top: 8px;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .status {
+      text-align: center;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .status.success { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .status.error { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+    .footer a { color: #818cf8; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .required::after { content: ' *'; color: #f87171; }
+
+    @media (max-width: 500px) {
+      .container { padding: 28px 20px; }
+      .row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-area">
+      <h1>📋 MLS Listing Form</h1>
+      <p>Submit a new listing to the CEREB-MLS Database</p>
+    </div>
+
+    <form id="listingForm" autocomplete="off">
+      <div class="row">
+        <div class="form-group">
+          <label class="required" for="category">Category</label>
+          <select id="category" required>
+            <option value="">— Select —</option>
+            <option value="For Sale">For Sale</option>
+            <option value="For Rent">For Rent</option>
+            <option value="Looking For: Sale">Looking For: Sale</option>
+            <option value="Looking For: Rent">Looking For: Rent</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="required" for="vacant">Vacant</label>
+          <select id="vacant" required>
+            <option value="">— Select —</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label class="required" for="date">Date</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label class="required" for="zonal">Zonal</label>
+          <select id="zonal" required>
+            <option value="">— Select —</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Residential">Residential</option>
+            <option value="Agricultural">Agricultural</option>
+            <option value="Mixed">Mixed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required" for="type">Type</label>
+        <select id="type" required>
+          <option value="">— Select —</option>
+          <option value="House & Lot">House & Lot</option>
+          <option value="Lot">Lot</option>
+          <option value="Building">Building</option>
+          <option value="Condo">Condo</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="required" for="location">Location</label>
+        <input type="text" id="location" placeholder="e.g. Banilad, Cebu City" required>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="floorArea">Floor Area (sqm)</label>
+          <input type="text" id="floorArea" placeholder="e.g. 120 sqm">
+        </div>
+        <div class="form-group">
+          <label for="lotArea">Lot Area (sqm)</label>
+          <input type="text" id="lotArea" placeholder="e.g. 300 sqm">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Additional details about the listing..." rows="3"></textarea>
+      </div>
+
+      <div class="form-group" id="postLinkGroup">
+        <label for="postLink">Post Link</label>
+        <input type="url" id="postLink" placeholder="https://...">
+      </div>
+
+      <div class="form-group">
+        <label class="required" for="price">Price (₱)</label>
+        <input type="text" id="price" placeholder="e.g. 5M, 25K/month, 55K/sqm" required>
+      </div>
+
+      <div class="form-group">
+        <label class="required" for="broker">Broker Name</label>
+        <input type="text" id="broker" placeholder="Full name" required>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn">Submit Listing</button>
+    </form>
+
+    <div id="statusMsg" class="status hidden"></div>
+
+    <div class="footer">
+      Credits to <strong>Cebu Real Estate Board, Inc.</strong><br>
+      <a href="https://docs.google.com/spreadsheets/d/17n3ZdU3_cCCq9Zgay4-dRpe38EehDtgc6y60t0seq8g/edit" target="_blank">View Full MLS Database →</a>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    // Default date to today
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('date').value = `${yyyy}-${mm}-${dd}`;
+
+    // Show/hide Post Link based on category
+    const categorySelect = document.getElementById('category');
+    const postLinkGroup = document.getElementById('postLinkGroup');
+
+    categorySelect.addEventListener('change', () => {
+      if (categorySelect.value === 'For Sale') {
+        postLinkGroup.classList.remove('hidden');
+      } else {
+        postLinkGroup.classList.add('hidden');
+        document.getElementById('postLink').value = '';
+      }
+    });
+
+    // Form submission
+    document.getElementById('listingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const statusMsg = document.getElementById('statusMsg');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      statusMsg.className = 'status hidden';
+
+      const payload = {
+        formType: 'mls_listing',
+        category: document.getElementById('category').value,
+        vacant: document.getElementById('vacant').value,
+        date: document.getElementById('date').value,
+        zonal: document.getElementById('zonal').value,
+        type: document.getElementById('type').value,
+        location: document.getElementById('location').value,
+        floorArea: document.getElementById('floorArea').value,
+        lotArea: document.getElementById('lotArea').value,
+        description: document.getElementById('description').value,
+        postLink: document.getElementById('postLink').value,
+        price: document.getElementById('price').value,
+        broker: document.getElementById('broker').value
+      };
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        statusMsg.textContent = '✅ Listing submitted successfully! It will appear in the MLS database shortly.';
+        statusMsg.className = 'status success';
+        statusMsg.classList.remove('hidden');
+
+        // Reset form but keep defaults
+        document.getElementById('listingForm').reset();
+        document.getElementById('date').value = `${yyyy}-${mm}-${dd}`;
+        postLinkGroup.classList.add('hidden');
+      } catch (err) {
+        statusMsg.textContent = '❌ Something went wrong. Please try again.';
+        statusMsg.className = 'status error';
+        statusMsg.classList.remove('hidden');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Submit Listing';
+    });
+  </script>
+</body>
+</html>
